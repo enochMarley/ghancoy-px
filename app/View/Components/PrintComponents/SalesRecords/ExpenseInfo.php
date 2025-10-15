@@ -6,14 +6,14 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class SalesInfo extends Component
+class ExpenseInfo extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public $result,
-        public $saleGrandTotal,
+        public $expenseResults,
+        public $expenseGrandTotal
     ) {}
 
     /**
@@ -21,6 +21,6 @@ class SalesInfo extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.print-components.sales-records.sales-info');
+        return view('components.print-components.sales-records.expense-info');
     }
 }

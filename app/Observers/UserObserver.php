@@ -14,7 +14,7 @@ class UserObserver
     {
         // Log personnel creation
         HelperFunctions::logUserHistory(
-            "Created user details with email {$user->email}"
+            "Added user details with email {$user->email}"
         );
     }
 

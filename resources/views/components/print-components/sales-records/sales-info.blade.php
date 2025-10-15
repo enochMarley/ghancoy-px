@@ -1,6 +1,6 @@
 <div class="mt-6">
     {{-- Heading --}}
-    <table class="table table-xs rounded-box">
+    <table class="table summary-table table-xs rounded-box">
         <thead>
             <tr class=" bg-gray-300">
                 <th colspan="12" class="text-xs">SALES RECORDS</th>
@@ -24,33 +24,33 @@
             </colgroup>
 
             @if (count($result) > 0)
-            <span class="hidden">{{ $index = 0}}</span>
+                <span class="hidden">{{ $index = 0}}</span>
                 <tr class="table-row text-center">
-                    <th class="border border-gray-300 text-xs">SER</th>
-                    <th class="border border-gray-300 text-xs">DATE</th>
-                    <th class="border border-gray-300 text-xs">ITEM</th>
-                    <th class="border border-gray-300 text-xs">CP (FCFA)</th>
-                    <th class="border border-gray-300 text-xs">SP (FCFA)</th>
-                    <th class="border border-gray-300 text-xs">TOTAL QTY</th>
-                    <th class="border border-gray-300 text-xs">SALES - CASH <br/>(FCFA)</th>
-                    <th class="border border-gray-300 text-xs">SALES - CREDIT <br/>(FCFA)</th>
-                    <th class="border border-gray-300 text-xs">EXPECTED PROFIT <br/>(FCFA)</th>
-                    <th class="border border-gray-300 text-xs">ACTUAL PROFIT <br/>(FCFA)</th>
-                    <th class="border border-gray-300 text-xs">DEBT <br/>(FCFA)</th>
+                    <th>SER</th>
+                    <th>DATE</th>
+                    <th>ITEM</th>
+                    <th>CP (FCFA)</th>
+                    <th>SP (FCFA)</th>
+                    <th>TOTAL QTY</th>
+                    <th>SALES - CASH <br />(FCFA)</th>
+                    <th>SALES - CREDIT <br />(FCFA)</th>
+                    <th>EXPECTED PROFIT <br />(FCFA)</th>
+                    <th>ACTUAL PROFIT <br />(FCFA)</th>
+                    <th>DEBT <br />(FCFA)</th>
                 </tr>
 
                 <tr class="table-row text-center">
-                    <th class="border border-gray-300 text-xs">(a)</th>
-                    <th class="border border-gray-300 text-xs">(b)</th>
-                    <th class="border border-gray-300 text-xs">(c)</th>
-                    <th class="border border-gray-300 text-xs">(d)</th>
-                    <th class="border border-gray-300 text-xs">(e)</th>
-                    <th class="border border-gray-300 text-xs">(f)</th>
-                    <th class="border border-gray-300 text-xs">(g)</th>
-                    <th class="border border-gray-300 text-xs">(h)</th>
-                    <th class="border border-gray-300 text-xs">(i)</th>
-                    <th class="border border-gray-300 text-xs">(j)</th>
-                    <th class="border border-gray-300 text-xs">(k)</th>
+                    <th>(a)</th>
+                    <th>(b)</th>
+                    <th>(c)</th>
+                    <th>(d)</th>
+                    <th>(e)</th>
+                    <th>(f)</th>
+                    <th>(g)</th>
+                    <th>(h)</th>
+                    <th>(i)</th>
+                    <th>(j)</th>
+                    <th>(k)</th>
 
                 </tr>
 
@@ -59,69 +59,72 @@
                     @foreach ($items['salesHistory'] as $key => $value)
                         <tr>
                             @if ($loop->first)
-                                <td rowspan="{{ count($items['salesHistory']) }}" class="border border-gray-300 text-xs">{{ $index }}.</td>
+                                <td rowspan="{{ count($items['salesHistory']) }}">{{ $index }}.
+                                </td>
 
-                                <td rowspan="{{ count($items['salesHistory']) }}" class="border border-gray-300 text-xs">{{ Carbon\Carbon::parse($date)->format('d M y') }}</td>
+                                <td rowspan="{{ count($items['salesHistory']) }}">
+                                    {{ Carbon\Carbon::parse($date)->format('d M y') }}
+                                </td>
                             @endif
-                            <td class="border border-gray-300 text-xs">{{ $value['item'] }}</td>
+                            <td>{{ $value['item'] }}</td>
 
-                            <td class="border border-gray-300 text-xs">
+                            <td>
                                 {{ number_format($value['cost_price']) }}
                             </td>
 
-                            <td class="border border-gray-300 text-xs">
+                            <td>
                                 {{ number_format($value['selling_price']) }}
                             </td>
 
-                            <td class="border border-gray-300 text-xs">
+                            <td>
                                 {{ $value['total_quantity'] }}
                                 (
-                                    {{ $value['cash_quantity'] }} cash,
-                                    {{ $value['credit_quantity'] }} credit
+                                {{ $value['cash_quantity'] }} cash,
+                                {{ $value['credit_quantity'] }} credit
                                 )
                             </td>
 
 
-                            <td class="border border-gray-300 text-xs">
-                                {{ number_format($value['cash_total']) }}
+                            <td>
+                                {{ number_format($value['cash_total'], 2, '.', ',') }}
                             </td>
 
-                            <td class="border border-gray-300 text-xs">
-                                {{ number_format($value['credit_total']) }}
+                            <td>
+                                {{ number_format($value['credit_total'], 2, '.', ',') }}
                             </td>
 
-                            <td class="border border-gray-300 text-xs">
-                                {{ number_format($value['expected_profit']) }}
+                            <td>
+                                {{ number_format($value['expected_profit'], 2, '.', ',') }}
                             </td>
 
-                            <td class="border border-gray-300 text-xs">
-                                {{ number_format($value['actual_profit']) }}
+                            <td>
+                                {{ number_format($value['actual_profit'], 2, '.', ',') }}
                             </td>
 
-                            <td class="border border-gray-300 text-xs">
-                                {{ number_format($value['debt']) }}
+                            <td>
+                                {{ number_format($value['debt'], 2, '.', ',') }}
                             </td>
                         </tr>
                     @endforeach
                     <tr>
                         {{-- <td></td> --}}
-                        <td class="border border-gray-300 text-xs" colspan="6">Totals</td>
+                        <td colspan="6">Totals</td>
                         <td class="border border-gray-300 text-xs font-bold">
-                            {{ number_format($items['totals']['total_cash_total']) }}
+                            {{ number_format($items['totals']['total_cash_total'], 2, '.', ',') }}
                         </td>
                         <td class="border border-gray-300 text-xs font-bold">
-                            {{number_format($items['totals']['total_credit_total']) }}
+                            {{number_format($items['totals']['total_credit_total'], 2, '.', ',') }}
                         </td>
                         <td class="border border-gray-300 text-xs font-bold">
-                            {{ number_format($items['totals']['total_expected_profit']) }}
+                            {{ number_format($items['totals']['total_expected_profit'], 2, '.', ',') }}
                         </td>
 
                         <td class="border border-gray-300 text-xs font-bold">
-                            {{ number_format($items['totals']['total_actual_profit']) }}
+                            {{ number_format($items['totals']['total_actual_profit'], 2, '.', ',') }}
                         </td>
-                        
+
                         <td class="border border-gray-300 text-xs font-bold">
-                            {{ number_format($items['totals']['total_debt']) }}
+                            {{ number_format($items['totals']['total_debt'], 2, '.', ',') }}
                         </td>
                     </tr>
 
@@ -130,10 +133,33 @@
                     </tr>
                 @endforeach
 
+                <tr>
+                    <td class="border border-gray-300 text-xs font-bold" colspan="5">GRAND TOTAL</td>
+                    <td></td>
+
+                    <td class="border border-gray-300 text-xs font-bold">
+                        {{ number_format($saleGrandTotal['grand_total_cash_total'], 2, '.', ',') }}
+                    </td>
+                    <td class="border border-gray-300 text-xs font-bold">
+                        {{number_format($saleGrandTotal['grand_total_credit_total'], 2, '.', ',') }}
+                    </td>
+                    <td class="border border-gray-300 text-xs font-bold">
+                        {{ number_format($saleGrandTotal['grand_total_expected_profit'], 2, '.', ',') }}
+                    </td>
+
+                    <td class="border border-gray-300 text-xs font-bold">
+                        {{ number_format($saleGrandTotal['grand_total_actual_profit'], 2, '.', ',') }}
+                    </td>
+
+                    <td class="border border-gray-300 text-xs font-bold">
+                        {{ number_format($saleGrandTotal['grand_total_debt'], 2, '.', ',') }}
+                    </td>
+                </tr>
+
             @else
-             <colgroup>
-                <col style="width:100%;">
-            </colgroup>
+                <colgroup>
+                    <col style="width:100%;">
+                </colgroup>
                 <tr>
                     <td class="border border-gray-300" colspan="12">No Sales Record Data Available for Period</td>
                 </tr>

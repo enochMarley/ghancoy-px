@@ -25,7 +25,7 @@ class PersonnelObserver
     {
         // Log personnel creation
         HelperFunctions::logUserHistory(
-            "Created personnel details with service number {$personnel->service_number}"
+            "Added personnel details with service number {$personnel->service_number}"
         );
     }
 

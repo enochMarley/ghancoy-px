@@ -32,6 +32,7 @@ class SaleFactory extends Factory
             'personnel_id' => $personnelId,
             'quantity' => $this->faker->numberBetween(1, 3),
             'sale_type' => $saleType,
+            'created_at' => fake()->dateTimeBetween('-3 months', 'now'),
         ];
     }
 }

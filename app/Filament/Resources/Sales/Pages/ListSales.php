@@ -11,6 +11,7 @@ use Filament\Actions\CreateAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Support\Enums\Size;
 use Illuminate\Database\Eloquent\Builder;
@@ -98,32 +99,39 @@ class ListSales extends ListRecords
                     ->label('Get Sale Records')
                     ->icon('heroicon-o-clock')
                     ->schema([
-                        Select::make('mode')
-                            ->label('Select Mode')
-                            ->options([
-                                'single' => 'Single Date',
-                                'range' => 'Date Range',
-                            ])
-                            ->default('single')
-                            ->reactive(),
+                        Section::make()
+                            ->schema([
+                                Select::make('mode')
+                                    ->label('Select Mode')
+                                    ->options([
+                                        'single' => 'Single Date',
+                                        'range' => 'Date Range',
+                                    ])
+                                    ->default('single')
+                                    ->reactive()
+                                    ->columnSpan(4),
 
-                        DatePicker::make('single_date')
-                            ->label('Date')
-                            ->maxDate(now())
-                            ->visible(fn($get) => $get('mode') === 'single')
-                            ->required(fn($get) => $get('mode') === 'single'),
+                                DatePicker::make('single_date')
+                                    ->label('Date')
+                                    ->maxDate(now())
+                                    ->visible(fn($get) => $get('mode') === 'single')
+                                    ->required(fn($get) => $get('mode') === 'single')
+                                    ->columnSpan(4),
 
-                        DatePicker::make('from_date')
-                            ->label('From Date')
-                            ->maxDate(now())
-                            ->visible(fn($get) => $get('mode') === 'range')
-                            ->required(fn($get) => $get('mode') === 'range'),
+                                DatePicker::make('from_date')
+                                    ->label('From Date')
+                                    ->maxDate(now())
+                                    ->visible(fn($get) => $get('mode') === 'range')
+                                    ->required(fn($get) => $get('mode') === 'range')
+                                    ->columnSpan(4),
 
-                        DatePicker::make('to_date')
-                            ->label('To Date')
-                            ->maxDate(now())
-                            ->visible(fn($get) => $get('mode') === 'range')
-                            ->required(fn($get) => $get('mode') === 'range'),
+                                DatePicker::make('to_date')
+                                    ->label('To Date')
+                                    ->maxDate(now())
+                                    ->visible(fn($get) => $get('mode') === 'range')
+                                    ->required(fn($get) => $get('mode') === 'range')
+                                    ->columnSpan(4),
+                            ])->columns(12)
                     ])
                     ->action(function (array $data) {
                         if ($data['mode'] === 'single') {

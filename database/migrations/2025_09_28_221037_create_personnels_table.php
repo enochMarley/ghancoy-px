@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('other_names');
             $table->enum('gender', PersonnelGender::cases())->default(PersonnelGender::MALE);
             $table->string('email')->unique();
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->enum('type', PersonnelType::cases())->default(PersonnelType::OFFICER);
             $table->timestamps();
         });

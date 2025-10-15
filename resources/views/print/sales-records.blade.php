@@ -5,7 +5,11 @@
       <x-print-components.general.header :title="$title" />
 
       {{-- Sales Info Div --}}
-      <x-print-components.sales-records.sales-info :result="$result" />
+      <x-print-components.sales-records.sales-info :result="$result" :saleGrandTotal="$saleGrandTotal" />
+
+      {{-- Expense Info Div --}}
+      <x-print-components.sales-records.expense-info :expenseResults="$expenseResults"
+         :expenseGrandTotal="$expenseGrandTotal" />
 
    </div>
 </x-layout>

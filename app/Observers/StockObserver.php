@@ -23,7 +23,7 @@ class StockObserver
 
         // Log stock creation
         HelperFunctions::logUserHistory(
-            "Created stock details with name {$stock->name}"
+            "Added stock details with name {$stock->name}"
         );
     }
 

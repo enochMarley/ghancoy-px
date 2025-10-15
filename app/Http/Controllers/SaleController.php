@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Enum\SaleType;
 use App\Helpers\HelperFunctions;
+use App\Models\Expense;
 use App\Models\Sale;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Spatie\Browsershot\Browsershot;
 
 class SaleController extends Controller
 {
@@ -52,7 +51,7 @@ class SaleController extends Controller
                     'debt' => $debt,
                 ];
             })
-            ->groupBy('date', 'desc');
+            ->groupBy('date',);
 
         $result = $salesHistory->map(function ($items, $date) {
             $totals = [
@@ -69,6 +68,55 @@ class SaleController extends Controller
             ];
         });
 
+        $saleGrandTotal = [
+            'grand_total_cash_total' => $result->pluck('totals.total_cash_total')->sum(),
+            'grand_total_credit_total' => $result->pluck('totals.total_credit_total')->sum(),
+            'grand_total_expected_profit' => $result->pluck('totals.total_expected_profit')->sum(),
+            'grand_total_debt' => $result->pluck('totals.total_debt')->sum(),
+            'grand_total_actual_profit' => $result->pluck('totals.total_actual_profit')->sum(),
+        ];
+
+
+        // calculate the expense for the same give range
+        $expenses = Expense::query()
+            ->select([
+                DB::raw("DATE(created_at) as expense_date"),
+                'id',
+                'quantity',
+                'description',
+                'unit_cost_price',
+            ])
+            ->whereBetween('created_at', [$from, $to])
+            ->groupBy('expense_date', 'id')
+            ->orderBy('expense_date', 'asc')
+            ->get()
+            ->map(function ($row) {
+                return [
+                    'date' => $row->expense_date,
+                    'description' => $row->description,
+                    'unit_cost_price' => (float) $row->unit_cost_price,
+                    'quantity' => (int) $row->quantity,
+                    'cost_price_total' => (float) $row->quantity * $row->unit_cost_price,
+                ];
+            })
+            ->groupBy('date',);
+
+        $expenseResults = $expenses->map(function ($items, $date) {
+            $totals = [
+                'total_cost_price' => $items->sum('cost_price_total'),
+            ];
+
+            return [
+                'expenses' => $items->values()->toArray(),
+                'totals' => $totals,
+            ];
+        });
+
+        $expenseGrandTotal = [
+            'grand_total_cost_price' => $expenseResults->pluck('totals.total_cost_price')->sum(),
+        ];
+
+
         $startPeriod = Carbon::parse($from)->format('d M y');
         $endPeriod = Carbon::parse($to)->format('d M y');
         $period = ($startPeriod == $endPeriod) ? $startPeriod : "$startPeriod to $endPeriod";
@@ -76,7 +124,10 @@ class SaleController extends Controller
 
         $data = array(
             'title' => $title,
-            'result' => $result
+            'result' => $result,
+            'expenseResults' => $expenseResults,
+            'saleGrandTotal' => $saleGrandTotal,
+            'expenseGrandTotal' => $expenseGrandTotal,
         );
 
         $html = view('print.sales-records', $data)->render();
@@ -115,7 +166,7 @@ class SaleController extends Controller
                     'estimated_profit' => ($sellingPrice - $costPrice) * $row->credit_quantity,
                 ];
             })
-            ->groupBy('date', 'desc');
+            ->groupBy('date',);
 
         $result = $creditHistory->map(function ($items, $date) {
             $totals = [

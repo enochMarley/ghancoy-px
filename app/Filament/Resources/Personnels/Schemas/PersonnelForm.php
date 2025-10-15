@@ -39,7 +39,6 @@ class PersonnelForm
 
                 PhoneInput::make('phone')
                     ->initialCountry('gh')
-                    ->required()
                     ->columnSpan(4),
 
                 TextInput::make('email')

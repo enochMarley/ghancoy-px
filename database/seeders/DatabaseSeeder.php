@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             RankSeeder::class,
             PersonnelSeeder::class,
             StockSeeder::class,
-            SaleSeeder::class
+            SaleSeeder::class,
+            ExpenseSeeder::class
         ]);
     }
 }

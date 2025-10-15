@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Expense;
 use App\Models\Personnel;
 use App\Models\Sale;
 use App\Models\Stock;
 use App\Models\User;
+use App\Observers\ExpenseObserver;
 use App\Observers\PersonnelObserver;
 use App\Observers\SaleObserver;
 use App\Observers\StockObserver;
@@ -32,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
         Personnel::observe(PersonnelObserver::class);
         Sale::observe(SaleObserver::class);
         Stock::observe(StockObserver::class);
+        Expense::observe(ExpenseObserver::class);
     }
 }
