@@ -31,11 +31,11 @@ class ExpenseInfolist
                             ->numeric(),
 
                         TextEntry::make('created_at')
-                            ->dateTime()
+                            ->dateTime('d M y')
                             ->placeholder('-'),
 
                         TextEntry::make('updated_at')
-                            ->dateTime()
+                            ->dateTime('d M y')
                             ->placeholder('-'),
                     ])
             ]);

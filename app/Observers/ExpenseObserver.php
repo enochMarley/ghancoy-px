@@ -8,6 +8,14 @@ use App\Models\Expense;
 class ExpenseObserver
 {
     /**
+     * Handle the Expense "creating" event.
+     */
+    public function creating(Expense $expense): void
+    {
+        $expense->user_id = auth()->user()->id;
+    }
+
+    /**
      * Handle the Expense "created" event.
      */
     public function created(Expense $expense): void
@@ -16,6 +24,14 @@ class ExpenseObserver
         HelperFunctions::logUserHistory(
             "Added expense with description {$expense->description}"
         );
+    }
+
+    /**
+     * Handle the Expense "updating" event.
+     */
+    public function updating(Expense $expense): void
+    {
+        $expense->user_id = auth()->user()->id;
     }
 
     /**
